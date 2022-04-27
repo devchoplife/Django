@@ -7,6 +7,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 
+from hello_world.models import HelloUsers
+
 def index(request):
-    template = loader.get_template('myFirst.html')
-    return HttpResponse(template.render())
+    myusers = HelloUsers.objects.all().values()
+    output = ""
+    
+    for x in myusers:
+        output += x["firstname"]
+    
+    return HttpResponse(output)
