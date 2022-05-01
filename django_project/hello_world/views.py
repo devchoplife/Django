@@ -9,11 +9,12 @@ from django.template import loader
 
 from hello_world.models import HelloUsers
 
+
 def index(request):
-    myusers = HelloUsers.objects.all().values()
-    output = ""
-    
-    for x in myusers:
-        output += x["firstname"]
-    
-    return HttpResponse(output)
+    Myusers = HelloUsers.objects.all().values()
+    template = loader.get_template('index.html')
+    context = {
+        'Myusers': Myusers,
+    }
+
+    return HttpResponse(template.render(context, request))
