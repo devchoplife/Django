@@ -35,7 +35,30 @@ def addrecord(request):
 
     return HttpResponseRedirect(reverse('index'))
 
+
 def delete(request, id):
-    user = HelloUsers.objects.get(id = id)
+    user = HelloUsers.objects.get(id=id)
     user.delete()
+    return HttpResponseRedirect(reverse('index'))
+
+
+def update(request, id):
+    user = HelloUsers.objects.get(id=id)
+    template = loader.get_template('update.html')
+    context = {
+        'Myusers': user
+    }
+
+    return HttpResponse(template.render(context, request))
+
+
+def updaterecord(request, id):
+    first = request.POST['first']
+    last = request.POST['last']
+
+    user = HelloUsers.objects.get(id=id)
+    user.firstname = first
+    user.lastname = last
+    user.save()
+
     return HttpResponseRedirect(reverse('index'))
