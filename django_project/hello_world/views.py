@@ -34,3 +34,8 @@ def addrecord(request):
     user.save()
 
     return HttpResponseRedirect(reverse('index'))
+
+def delete(request, id):
+    user = HelloUsers.objects.get(id = id)
+    user.delete()
+    return HttpResponseRedirect(reverse('index'))
