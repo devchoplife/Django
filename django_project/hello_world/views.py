@@ -4,8 +4,9 @@ A web page that uses Django is full of views with different tasks and missions.
 Views are usually put in a file called views.py located on your app's folder
 """
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
+from django.urls import reverse
 
 from hello_world.models import HelloUsers
 
@@ -18,3 +19,18 @@ def index(request):
     }
 
     return HttpResponse(template.render(context, request))
+
+
+def add(request):
+    template = loader.get_template('add.html')
+    return HttpResponse(template.render({}, request))
+
+
+def addrecord(request):
+    x = request.POST['first']
+    y = request.POST['last']
+
+    user = HelloUsers(firstname=x, lastname=y)
+    user.save()
+
+    return HttpResponseRedirect(reverse('index'))
